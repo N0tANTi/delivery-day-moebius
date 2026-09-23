@@ -5,6 +5,10 @@
   "profile": "gitmark",
   "pubkeyBase": "024d272ca3c50d8df0ba2b6521cf07fe934ecb2d5dea9a6bcce738f23705146329",
   "chain": "txbt4",
-  "states": [],
-  "txo": []
+  "states": [
+    "a75c34c84055d4cbc2b6f191ff6f9087fbbd6fb5"
+  ],
+  "txo": [
+    "txo:txbt4:8129190799de150153bdae7d1092c4cd505874e842cfbf429ac452956025fa51:0?amount=49400&commit=a75c34c84055d4cbc2b6f191ff6f9087fbbd6fb5"
+  ]
 }
