@@ -1,0 +1,10 @@
+{
+  "@id": "txo:txbt4:8dae22d774443d4783139ce655e209ad1394f1dd51689486dc385bf7c176eb83:0?amount=49700&pubkey=4d272ca3c50d8df0ba2b6521cf07fe934ecb2d5dea9a6bcce738f23705146329",
+  "@type": "Blocktrail",
+  "version": "0.0.3",
+  "profile": "gitmark",
+  "pubkeyBase": "024d272ca3c50d8df0ba2b6521cf07fe934ecb2d5dea9a6bcce738f23705146329",
+  "chain": "txbt4",
+  "states": [],
+  "txo": []
+}
