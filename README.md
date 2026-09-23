@@ -1,5 +1,7 @@
 # Delivery Day
 
+[![gitmarks](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fraw.githubusercontent.com%2Fmelvincarvalho%2Fdelivery-day%2Fgh-pages%2Fblocktrails.json&query=%24.states.length&label=gitmarks&suffix=%20%C2%B7%20txbt4&color=f7931a)](https://mempool.guide/testnet4/tx/8129190799de150153bdae7d1092c4cd505874e842cfbf429ac452956025fa51)
+
 A young witch and her black cat on a summer morning over Prague. Fly along the Vltava, slip under
 Charles Bridge, and circle the spires of St Vitus. There's no score and nothing to deliver: you just fly.
 
