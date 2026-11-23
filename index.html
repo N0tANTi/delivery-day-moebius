@@ -1,44 +1,76 @@
 <!doctype html>
-<html lang="en">
+<html lang="zh-CN">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Delivery Day</title>
-<meta name="description" content="Fly a broom over a painted summer Prague: along the Vltava, under Charles Bridge, up to the castle. A Ghibli-style Three.js flight with no score, no goals, everything generated in code.">
-<meta name="theme-color" content="#79aee6">
-<link rel="canonical" href="https://melvincarvalho.github.io/delivery-day/">
+<title>Delivery Day · 魔女飞行</title>
+<meta name="description" content="Fly a broom over a painted Mediterranean cliff harbour and Prague valley. Switch live between Studio Ghibli gouache, Moebius Ligne Claire, and Golden Hour.">
+<meta name="theme-color" content="#5aa4e6">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%A7%B9%3C/text%3E%3C/svg%3E">
-<meta property="og:type" content="website">
-<meta property="og:site_name" content="Delivery Day">
-<meta property="og:title" content="Delivery Day: a broom flight over Prague">
-<meta property="og:description" content="A young witch and her black cat on a summer morning over Prague. Fly the Vltava, slip under Charles Bridge, circle the spires of St Vitus. Toon-shaded, in the browser, no score.">
-<meta property="og:url" content="https://melvincarvalho.github.io/delivery-day/">
-<meta property="og:image" content="https://melvincarvalho.github.io/delivery-day/og.jpg">
-<meta property="og:image:width" content="1200">
-<meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="A witch on a broom flying down the Vltava towards Charles Bridge, with Malá Strana and Prague Castle on the hill, in a painterly toon style.">
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Delivery Day: a broom flight over Prague">
-<meta name="twitter:description" content="Fly a broom over a painted summer Prague. Toon-shaded, in the browser, no score.">
-<meta name="twitter:image" content="https://melvincarvalho.github.io/delivery-day/og.jpg">
 <style>
-  html, body { margin: 0; height: 100%; overflow: hidden; background: #cfe0ee; }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; height: 100%; overflow: hidden; background: #cfe6f2; user-select: none; }
   canvas { display: block; }
+
   #title {
     position: fixed; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center;
-    color: #fffaf0; text-shadow: 0 2px 12px rgba(40, 50, 80, .45); font-family: Georgia, 'Times New Roman', serif;
-    pointer-events: none; transition: opacity 2.5s ease;
+    color: #fffcf4; text-shadow: 0 3px 18px rgba(26, 36, 68, .48);
+    font-family: Georgia, 'Noto Serif SC', 'Songti SC', serif;
+    pointer-events: none; transition: opacity 1.8s ease;
   }
-  #title h1 { font-size: clamp(40px, 7vw, 92px); font-weight: normal; letter-spacing: .04em; margin: 0; }
-  #title p { font-size: clamp(14px, 1.6vw, 20px); margin: .6em 0 0; opacity: .95; }
-  #title .keys { font-family: system-ui, sans-serif; font-size: 13px; margin-top: 2.2em; opacity: .9; line-height: 1.8; text-align: center; }
-  #title .go { margin-top: 1.6em; font-family: system-ui, sans-serif; font-size: 13px; letter-spacing: .2em; text-transform: uppercase; animation: pulse 2.4s ease-in-out infinite; }
+  #title h1 {
+    font-size: clamp(42px, 6.8vw, 88px); font-weight: 400; letter-spacing: .06em; margin: 0;
+  }
+  #title .cn {
+    font-size: clamp(16px, 2vw, 24px); letter-spacing: .28em; margin-top: .35em; opacity: .94;
+  }
+  #title p {
+    font-size: clamp(13px, 1.35vw, 17px); margin: .85em 0 0; opacity: .92;
+    font-family: system-ui, 'PingFang SC', 'Microsoft YaHei', sans-serif; letter-spacing: .08em;
+  }
+  #title .keys {
+    font-family: system-ui, 'PingFang SC', 'Microsoft YaHei', sans-serif;
+    font-size: 12.5px; margin-top: 2.1em; opacity: .9; line-height: 1.95; text-align: center;
+    padding: 10px 22px; border-radius: 14px;
+    background: rgba(24, 34, 62, .22); backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 250, 238, .22);
+  }
+  #title .go {
+    margin-top: 1.5em; font-family: system-ui, sans-serif; font-size: 12px;
+    letter-spacing: .24em; text-transform: uppercase; animation: pulse 2.4s ease-in-out infinite;
+  }
   @keyframes pulse { 50% { opacity: .45; } }
-  #hud {
-    position: fixed; left: 18px; bottom: 14px; color: rgba(255, 252, 240, .85); font: 12px/1.4 system-ui, sans-serif;
-    text-shadow: 0 1px 4px rgba(30, 40, 70, .5); letter-spacing: .06em; pointer-events: none; transition: opacity .6s;
+
+  #toolbar {
+    position: fixed; top: 16px; right: 18px; display: flex; flex-wrap: wrap; gap: 8px;
+    align-items: center; justify-content: flex-end; z-index: 10; transition: opacity .6s ease;
+    font-family: system-ui, 'PingFang SC', 'Microsoft YaHei', sans-serif;
   }
-  .hidden { opacity: 0 !important; }
+  .pill-group {
+    display: inline-flex; gap: 2px; padding: 3px; border-radius: 999px;
+    background: rgba(22, 30, 52, .34); backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 250, 240, .24);
+    box-shadow: 0 4px 16px rgba(18, 26, 48, .16);
+  }
+  .pill {
+    appearance: none; border: 0; background: transparent; color: rgba(255, 252, 244, .84);
+    font: 12px/1 system-ui, 'PingFang SC', 'Microsoft YaHei', sans-serif;
+    padding: 7px 12px; border-radius: 999px; cursor: pointer; letter-spacing: .04em;
+    transition: background .2s, color .2s, transform .15s;
+  }
+  .pill:hover { color: #ffffff; background: rgba(255, 255, 255, .14); }
+  .pill.active {
+    background: rgba(255, 250, 236, .92); color: #242b44; font-weight: 600;
+    box-shadow: 0 2px 8px rgba(18, 26, 48, .18);
+  }
+
+  #hud {
+    position: fixed; left: 18px; bottom: 16px; color: rgba(255, 252, 242, .9);
+    font: 12px/1.4 system-ui, 'PingFang SC', 'Microsoft YaHei', sans-serif;
+    text-shadow: 0 1px 6px rgba(24, 34, 62, .55); letter-spacing: .06em;
+    pointer-events: none; transition: opacity .6s;
+  }
+  .hidden { opacity: 0 !important; pointer-events: none !important; }
 </style>
 <script type="importmap">
 { "imports": {
@@ -50,14 +82,31 @@
 <body>
 <div id="title">
   <h1>Delivery Day</h1>
-  <p>a summer morning over the rooftops of Prague</p>
+  <div class="cn">魔 女 飞 行</div>
+  <p id="subtitle">地中海悬崖海港 · 风车山城与碧蓝海湾</p>
   <div class="keys">
-    W / S &nbsp;faster · slower &nbsp;&nbsp; A / D &nbsp;bank<br>
-    Space / Shift &nbsp;climb · descend &nbsp;&nbsp; hold mouse &nbsp;steer<br>
-    H &nbsp;hide text &nbsp;&nbsp; M &nbsp;mute
+    W / S 加速 · 缓飞 &nbsp;&nbsp; A / D 压弯转向 &nbsp;&nbsp; Space / Shift 爬升 · 俯冲 &nbsp;&nbsp; 按住鼠标 引导飞行<br>
+    1 莫比乌斯清线 · 2 吉卜力晴夏 · 3 金色黄昏 &nbsp;&nbsp; C 切换视角 &nbsp;&nbsp; P 自动巡航 &nbsp;&nbsp; H 隐藏界面 &nbsp;&nbsp; M 静音
   </div>
-  <div class="go">press any key to fly</div>
+  <div class="go">按任意键或点击屏幕起飞 · press any key to fly</div>
 </div>
+
+<div id="toolbar">
+  <div class="pill-group" aria-label="Art Style">
+    <button class="pill active" data-style="moebius" title="按键 1">莫比乌斯 清线</button>
+    <button class="pill" data-style="ghibli" title="按键 2">吉卜力 晴夏</button>
+    <button class="pill" data-style="golden" title="按键 3">金色 黄昏</button>
+  </div>
+  <div class="pill-group" aria-label="City">
+    <button class="pill" data-city="harbour">海港风车城</button>
+    <button class="pill" data-city="prague">布拉格河谷</button>
+  </div>
+  <div class="pill-group" aria-label="Camera and Auto">
+    <button class="pill" id="btn-cam" title="按键 C">飞行视角</button>
+    <button class="pill" id="btn-auto" title="按键 P">自动巡航</button>
+  </div>
+</div>
+
 <div id="hud"></div>
 <script type="module" src="src/main.js"></script>
 </body>

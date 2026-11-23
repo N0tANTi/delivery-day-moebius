@@ -1,77 +1,46 @@
-# Delivery Day
+# Delivery Day · 魔女飞行 (Moebius & Ghibli Edition)
 
-[![gitmarks](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fraw.githubusercontent.com%2Fmelvincarvalho%2Fdelivery-day%2Fgh-pages%2Fblocktrails.json&query=%24.states.length&label=gitmarks&suffix=%20%C2%B7%20txbt4&color=f7931a)](https://mempool.guide/testnet4/tx/8129190799de150153bdae7d1092c4cd505874e842cfbf429ac452956025fa51)
+A young witch and her black cat soaring over a sun-drenched Mediterranean cliffside harbour town and the Prague river valley — built 100% procedurally in Three.js with zero external 3D models, textures, or audio files.
 
-A young witch and her black cat on a summer morning over Prague. Fly along the Vltava, slip under
-Charles Bridge, and circle the spires of St Vitus. There's no score and nothing to deliver: you just fly.
+![Delivery Day — Moebius Ligne Claire over the Mediterranean Cliff Harbour & Windmill Town](og.jpg)
 
-**[Play it in the browser](https://melvincarvalho.github.io/delivery-day/)**
+## Highlights
 
-![Flying down the Vltava towards Charles Bridge, Malá Strana and the castle on the hill](og.jpg)
+- **Three Live Art Styles** (instant zero-reload switching via `1 / 2 / 3` or top-right toolbar):
+  1. **莫比乌斯 · 清线 (Moebius Ligne Claire — Default)**: Pastel turquoise-mint to peach-rose sky with a giant ringed celestial planet, crescent moon & orbital arc, whisper-thin plum-sepia ink outlines, shadow cross-hatching, watercolor paper grain, and floating pastel hot-air balloons.
+  2. **吉卜力 · 晴夏 (Ghibli Summer)**: Luminous cerulean summer sky, silky sky-feathered cumulus clouds, warm gouache brushwork with cool periwinkle shadows, and lush pillowy botanical canopies.
+  3. **金色 · 黄昏 (Golden Hour)**: Twilight violet-to-apricot sunset sky, liquid-gold water sparkles, sweeping volumetric lighthouse beam, and warm glowing dusk windows & street lanterns across the entire town.
+- **Two Procedural Worlds** (switchable in the toolbar or via `?city=harbour` / `?city=prague`):
+  - **海港风车城 (Harbour & Windmill Town — Default)**: Tiered coastal town, clock tower piazza, domed cathedral, 4 rotating hilltop windmills, 6-arch stone aqueduct/viaduct, fly-through natural limestone sea arch, lighthouse & fishing fleet.
+  - **布拉格河谷 (Prague Valley)**: The Vltava river, Charles Bridge, Old Town Square & Astronomical Clock, Týn Church, Prague Castle & St Vitus Cathedral, Petřín tower, plus lush linden river promenades and distant mountain ridges.
+- **Sculpted Witch, Stylized Broom & Black Cat**:
+  - Layered short bob hair, twin-loop red ribbon bow with fluttering silk streamers, ivory-trimmed capelet, real-time cloth-rippling pleated skirt & petticoat, and burgundy boots.
+  - Hand-carved oak broom with a unified fluted calligraphy-brush straw tail, brass/crimson binding collar with fluttering tassels, swinging brass fairy lantern, leather satchel with parchment scroll, expressive perched black cat, and delicate wind ribbons.
 
 ## Controls
 
-| Key | |
+| Key | Action |
 |---|---|
-| W / S | faster · slower |
-| A / D | bank left · right |
-| Space / Shift | climb · descend |
-| hold mouse | steer and climb with the pointer |
-| H | hide all text, for recording |
-| M | mute |
+| `W / S` or `↑ / ↓` | Faster · Slower |
+| `A / D` or `← / →` | Bank left · right |
+| `Space / Shift` | Climb · Descend |
+| Hold mouse | Steer & climb with pointer |
+| `1 / 2 / 3` | Switch style: Moebius · Ghibli · Golden Hour |
+| `C` | Cycle camera: Flight · Wide · Witch Close-up |
+| `P` | Toggle scenic autopilot |
+| `H` | Hide all UI (for clean screen recording) |
+| `M` | Mute synthesized Web Audio soundscape |
 
-The broom always flies forward and can't stall or crash. Buildings push you gently away, and the
-edge of the map turns you back towards the city.
+## Run Locally
 
-## Two cities
+Serve the folder with any static HTTP server:
 
-- **Prague** (the default): the river, Charles Bridge, Old Town Square with Týn and the astronomical
-  clock, Malá Strana, the castle and St Vitus, and the Petřín tower.
-- **The harbour town**, [`?city=harbour`](https://melvincarvalho.github.io/delivery-day/?city=harbour):
-  a hillside seaside town with a clock tower, a lighthouse and laundry lines, where the game started.
+```bash
+python -m http.server 8080
+```
 
-## URL options
+Then open `http://localhost:8080/`. Optional URL query parameters: `?style=moebius|ghibli|golden`, `?city=harbour|prague`, `?auto`, `?clean`, `?fps`.
 
-| Option | |
-|---|---|
-| `?city=harbour` | the seaside town instead of Prague |
-| `?at=x,y,z,yaw` | start somewhere else, e.g. `?at=70,4.5,32,1.57` flies you under Charles Bridge |
-| `?auto` | she drifts and turns on her own, for hands-free recording |
-| `?fps` | show the frame rate |
+## Credits
 
-## How it's made
-
-Everything is Three.js generated in code: no models, no textures, no audio files. It's a static page
-with ES modules, and Three.js loads from a CDN.
-
-- **Look:** a toon material with three light steps, a brush-stroke overlay and a warm rim light. Ink
-  outlines come from a depth and normals pass, fading with distance. Bloom, colour grading and a
-  vignette go on top.
-- **Sky and water:** a gradient sky, cumulus clouds that white out the screen when you fly into them,
-  and a painted water shader with drifting ripples, sun glint and foam.
-- **City:** each house is assembled from boxes and extruded shapes and merged into a single mesh.
-  Landmarks are built from the same parts.
-- **Sound:** Web Audio, all synthesized: wind, a whoosh past roofs, water, gulls, church bells and
-  trams.
-
-| File | |
-|---|---|
-| `src/main.js` | flight model, camera, input, main loop |
-| `src/world.js` | light, sky, terrain, water, the house builder, harbour town, trees, clouds, gulls |
-| `src/prague.js` | Prague: blocks, Charles Bridge, the square, Týn, the castle and St Vitus, Petřín |
-| `src/rider.js` | the witch, the broom and the cat |
-| `src/post.js` | ink outlines, bloom, grading |
-| `src/toon.js` | toon material and brush noise |
-| `src/audio.js` | synthesized sound |
-| `src/util.js` | geography for both cities, noise, geometry merging |
-
-To run it locally, serve the folder with any static server, e.g. `python3 -m http.server`.
-
-## The brief
-
-[`PROMPT.md`](PROMPT.md) is the brief it was built from, plus a list of where it went beyond it, so it
-can be rebuilt from scratch. It began as a morph of
-[Summer Cycle](https://github.com/StarKnightt/summer-cycle)'s brief, with a broom instead of a bicycle.
-
-It's an homage to the feeling of Ghibli's harbour-town films, not a copy of any character or place
-from them.
+Forked & heavily reimagined from [melvincarvalho/delivery-day](https://github.com/melvincarvalho/delivery-day). Everything (geometry, GLSL shaders, procedural textures, and Web Audio soundscape) is generated in code using Three.js.
